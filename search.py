@@ -89,7 +89,7 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     fringe = util.Stack()
-    visited = set()
+    visited = []
 
     start_node = (problem.getStartState(), [])
     fringe.push(start_node)
@@ -98,7 +98,7 @@ def depthFirstSearch(problem):
         state, path = fringe.pop()
         if problem.isGoalState(state): return path
         if state not in visited:
-            visited.add(state)
+            visited.append(state)
             successors = problem.getSuccessors(state)
             for child_state, action, action_cost in successors:
                 child_node = (child_state, path + [action])
@@ -109,7 +109,7 @@ def breadthFirstSearch(problem):
     Search the shallowest nodes in the search tree first.
     """
     fringe = util.Queue()
-    visited = set()
+    visited = []
 
     start_node = (problem.getStartState(), [])
     fringe.push(start_node)
@@ -118,7 +118,7 @@ def breadthFirstSearch(problem):
         state, path = fringe.pop()
         if problem.isGoalState(state): return path
         if state not in visited:
-            visited.add(state)
+            visited.append(state)
             successors = problem.getSuccessors(state)
             for child_state, action, action_cost in successors:
                 child_node = (child_state, path + [action])
@@ -127,7 +127,7 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     "Search the node of least total cost first. "
     fringe = util.PriorityQueue()
-    visited = set()
+    visited = []
 
     start_node = (problem.getStartState(), 0, [])
     fringe.push(start_node, 0)
@@ -136,7 +136,7 @@ def uniformCostSearch(problem):
         state, cost, path = fringe.pop()
         if problem.isGoalState(state): return path
         if state not in visited:
-            visited.add(state)
+            visited.append(state)
             successors = problem.getSuccessors(state)
             for child_state, action, action_cost in successors:
                 child_cost = cost + action_cost
@@ -153,7 +153,7 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     "Search the node that has the lowest combined cost and heuristic first."
     fringe = util.PriorityQueue()
-    visited = set()
+    visited = []
 
     start_node = (problem.getStartState(), 0, [])
     fringe.push(start_node, 0)
@@ -162,7 +162,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         state, cost, path = fringe.pop()
         if problem.isGoalState(state): return path
         if state not in visited:
-            visited.add(state)
+            visited.append(state)
             successors = problem.getSuccessors(state)
             for child_state, action, action_cost in successors:
                 child_cost = cost + action_cost
