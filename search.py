@@ -90,26 +90,58 @@ def depthFirstSearch(problem):
     """
     fringe = util.Stack()
     visited = set()
-    fringe.push((problem.getStartState(), []))
+
+    start_node = (problem.getStartState(), [])
+    fringe.push(start_node)
+
     while not fringe.isEmpty():
-        node, path = fringe.pop()
-        if problem.isGoalState(node): return path
-        if node not in visited:
-            visited.add(node)
-            for successor in problem.getSuccessors(node):
-                fringe.push((successor[0], path + [successor[1]]))
+        state, path = fringe.pop()
+        if problem.isGoalState(state): return path
+        if state not in visited:
+            visited.add(state)
+            successors = problem.getSuccessors(state)
+            for child_state, action, action_cost in successors:
+                child_node = (child_state, path + [action])
+                fringe.push(child_node)
 
 def breadthFirstSearch(problem):
     """
     Search the shallowest nodes in the search tree first.
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    fringe = util.Queue()
+    visited = set()
+
+    start_node = (problem.getStartState(), [])
+    fringe.push(start_node)
+
+    while not fringe.isEmpty():
+        state, path = fringe.pop()
+        if problem.isGoalState(state): return path
+        if state not in visited:
+            visited.add(state)
+            successors = problem.getSuccessors(state)
+            for child_state, action, action_cost in successors:
+                child_node = (child_state, path + [action])
+                fringe.push(child_node)
 
 def uniformCostSearch(problem):
     "Search the node of least total cost first. "
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    fringe = util.PriorityQueue()
+    visited = set()
+
+    start_node = (problem.getStartState(), 0, [])
+    fringe.push(start_node, 0)
+
+    while not fringe.isEmpty():
+        state, cost, path = fringe.pop()
+        if problem.isGoalState(state): return path
+        if state not in visited:
+            visited.add(state)
+            successors = problem.getSuccessors(state)
+            for child_state, action, action_cost in successors:
+                child_cost = cost + action_cost
+                child_node = (child_state, child_cost, path + [action])
+                fringe.push(child_node, child_cost)
 
 def nullHeuristic(state, problem=None):
     """
