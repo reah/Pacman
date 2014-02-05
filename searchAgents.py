@@ -469,26 +469,17 @@ def foodHeuristic(state, problem):
     Subsequent calls to this heuristic can access problem.heuristicInfo['wallCount']
     """
     position, foodGrid = state
-
-    food_left = foodGrid.asList()
+    positions = foodGrid.asList()
+    positions.append(position)
 
     def distanceBetween(p1, p2):
         return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
 
     result = 0
-    while len(food_left) > 0:
-        min_food = None
-        min_distance = 0
-
-        for food in food_left:
-            distance = distanceBetween(food, position)
-            if min_food == None or distance < min_distance:
-                min_food = food
-                min_distance = distance
-
-        result += min_distance
-        food_left.remove(min_food)
-        position = min_food
+    for p1 in positions:
+        for p2 in positions:
+            distance = distanceBetween(p1, p2)
+            if distance > result: result = distance
 
     return result
 
